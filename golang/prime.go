@@ -21,7 +21,7 @@ func main() {
 		}
 	}
 	duration := time.Now().Sub(start)
-	fmt.Printf("duration=%d msec", duration.Nanoseconds() / (1000*1000))
+	fmt.Printf("duration=%d msec\n", duration.Nanoseconds() / (1000*1000))
 }
 
 func isPrime(number int) bool {
