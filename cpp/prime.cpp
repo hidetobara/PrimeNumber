@@ -26,5 +26,5 @@ int main(int argc, char *args[])
 			break;
 		}
 	}
-	printf("duration is %f\n", (double)(clock() - start)/CLOCKS_PER_SEC);
+	printf("[cpp] duration is %f sec\n", (double)(clock() - start)/CLOCKS_PER_SEC);
 }

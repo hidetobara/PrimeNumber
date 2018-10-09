@@ -11,7 +11,7 @@ function run(){
 		}
 	}
 	var end = new Date().getTime();
-	console.log("duration is " + (end - start) + " msec\n");
+	console.log("[node] duration is " + (end/1000 - start/1000) + " sec\n");
 }
 
 function isPrime(number){

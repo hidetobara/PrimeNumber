@@ -12,7 +12,7 @@ def run():
         if len(primes) == 10000:
             print("10000th prime is " + str(number))
             break
-    print("duration is " + str(time.clock() - start) + " sec")
+    print("[python] duration is " + str(time.clock() - start) + " sec")
 
 def is_prime(number):
     for n in range(2, int(number/2)):

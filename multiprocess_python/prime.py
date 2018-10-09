@@ -2,7 +2,7 @@ import time
 from multiprocessing import Process, Array
 
 def run():
-	start = time.clock()
+	start = time.time()
 	max = 120000
 	primes = Array('i', range(max))
 
@@ -25,7 +25,7 @@ def run():
 		if number == 10000:
 			print("10000th prime is " + str(n))
 			break
-	print("duration is " + str(time.clock() - start) + " sec")
+	print("[mp.python] duration is " + str(time.time() - start) + " sec")
 
 def worker(box, start, end):
 	for n in range(start, end, 4):

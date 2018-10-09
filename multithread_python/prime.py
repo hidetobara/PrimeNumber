@@ -25,7 +25,7 @@ def run():
 		if number == 10000:
 			print("10000th prime is " + str(n))
 			break
-	print("duration is " + str(time.clock() - start) + " sec")
+	print("[mt.python] duration is " + str(time.clock() - start) + " sec")
 
 def worker(box, start, end):
 	for n in range(start, end, 4):

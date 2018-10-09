@@ -24,7 +24,7 @@ namespace prime
 				}
 			}
 			watch.Stop();
-			Console.WriteLine("duration is " + (watch.ElapsedMilliseconds / 1000f).ToString("F1") + " sec");
+			Console.WriteLine("[dotnet] duration is " + (watch.ElapsedMilliseconds / 1000f).ToString("F1") + " sec");
         }
 
 		static bool IsPrime(int number)

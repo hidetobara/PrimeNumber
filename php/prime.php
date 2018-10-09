@@ -23,7 +23,7 @@ function main()
 		}
 	}
 	$time = microtime(true) - $start;
-	printf("duration is %2.2f sec\n", $time);
+	printf("[php] duration is %2.2f sec\n", $time);
 }
 
 main();
