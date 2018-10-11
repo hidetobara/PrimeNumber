@@ -58,3 +58,13 @@ then
   dotnet run -c Release --project prime
   cd $ROOT
 fi
+
+if type nvcc > /dev/null 2>&1
+then
+  echo "Now start nvcc."
+  cd nvcc
+  nvcc prime.cu
+  ./a.out
+  cd $ROOT
+fi
+

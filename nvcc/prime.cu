@@ -11,6 +11,11 @@ __global__ void kernel( int* result )
 	}
 }
 
+double diff_sec(time_t start, time_t end)
+{
+	return (double)(end - start)/CLOCKS_PER_SEC;
+}
+
 int main( void )
 {
 	clock_t start = clock();
@@ -19,11 +24,14 @@ int main( void )
 	int *buffer;
 	cudaMalloc((void**)&d_buffer, MAX*sizeof(int));
 	buffer = new int[MAX];
+	clock_t time1 = clock();
 
 	dim3 block(512, 1, 1);
 	dim3 grid(MAX/block.x, 1, 1);
 
 	kernel<<<grid,block>>>(d_buffer);
+	clock_t time2 = clock();
+
 	cudaMemcpy(buffer, d_buffer, MAX*sizeof(int), cudaMemcpyDeviceToHost);
 	cudaFree(d_buffer);
 	clock_t end = clock();
@@ -36,8 +44,8 @@ int main( void )
 		if(count == 10000) target = buffer[i];
 		count++;
 	}
-	printf("total=%.2f\n", (double)(end-start)/CLOCKS_PER_SEC);
-	printf("10000th prime number is %d : %.2f sec\n", target, (double)(end-start)/CLOCKS_PER_SEC * 10000.0/count);
+	printf("total=%.2f,warm-up=%.2f,gpu=%.2f,cool-down=%.2f\n", diff_sec(start,end), diff_sec(start,time1), diff_sec(time1,time2), diff_sec(time2,end));
+	printf("10000th prime number is %d : %.2f sec\n", target, diff_sec(start,end) * 10000.0/MAX);
 	return 0;
 }
 
