@@ -68,3 +68,10 @@ then
   cd $ROOT
 fi
 
+if type go > /dev/null 2>&1
+then
+  echo "Now start go."
+  cd golang
+  go run prime.go
+  cd $ROOT
+fi
