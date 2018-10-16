@@ -42,6 +42,14 @@ then
   cd $ROOT
 fi
 
+if type ruby > /dev/null 2>&1
+then
+  echo "Now start ruby."
+  cd ruby
+  ruby prime.rb
+  cd $ROOT
+fi
+
 if type node > /dev/null 2>&1
 then
   echo "No start node."

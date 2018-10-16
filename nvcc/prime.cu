@@ -45,7 +45,7 @@ int main( void )
 		count++;
 	}
 	printf("total=%.2f,warm-up=%.2f,gpu=%.2f,cool-down=%.2f\n", diff_sec(start,end), diff_sec(start,time1), diff_sec(time1,time2), diff_sec(time2,end));
-	printf("10000th prime number is %d : %.2f sec\n", target, diff_sec(start,end) * 10000.0/MAX);
+	printf("10000th prime number is %d\n[nvcc] duration is %.2f sec\n", target, diff_sec(start,end) * 10000.0/MAX);
 	return 0;
 }
 
