@@ -23,6 +23,10 @@ then
   gcc prime.cpp
   ./a.out
   cd $ROOT
+  cd multithread2_cpp
+  gcc prime.cpp -lpthread
+  ./a.out
+  cd $ROOT
 fi
 
 if type g++ > /dev/null 2>&1
