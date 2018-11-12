@@ -4,28 +4,30 @@ using System.Diagnostics;
 
 namespace prime
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			int limit = 10000;
+			if(args.Length == 1) int.TryParse(args[0], out limit);
+
 			Stopwatch watch = new Stopwatch();
 			watch.Start();
 			List<int> list = new List<int>();
-			int number = 1;
-			while(true)
+			int count = 0;
+			for(int number = 2; ; number++)
 			{
-				number++;
 				if (!IsPrime(number)) continue;
-				list.Add(number);
-				if(list.Count == 10000)
+				count++;
+				if(count == limit)
 				{
-					Console.WriteLine("10000th prime is " + number);
+					Console.WriteLine(limit + "th prime is " + number);
 					break;
 				}
 			}
 			watch.Stop();
 			Console.WriteLine("[dotnet] duration is " + (watch.ElapsedMilliseconds / 1000f).ToString("F1") + " sec");
-        }
+		}
 
 		static bool IsPrime(int number)
 		{
@@ -33,5 +35,5 @@ namespace prime
 				if (number % n == 0) return false;
 			return true;
 		}
-    }
+	}
 }

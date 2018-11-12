@@ -1,16 +1,20 @@
 import time
+import sys
 
 def run():
+    limit = 10000
+    if len(sys.argv) == 2: limit = int(sys.argv[1])
+
     start = time.clock()
-    primes = []
+    count = 0;
     number = 1
     while True:
         number += 1
         if not is_prime(number):
             continue
-        primes.append(number)
-        if len(primes) == 10000:
-            print("10000th prime is " + str(number))
+        count += 1
+        if count == limit:
+            print(str(limit) + "th prime is " + str(number))
             break
     print("[python] duration is " + str(time.clock() - start) + " sec")
 

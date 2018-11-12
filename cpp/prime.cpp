@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<time.h>
 
 bool isPrime(int number)
@@ -12,17 +13,19 @@ bool isPrime(int number)
 
 int main(int argc, char *args[])
 {
+	int limit = 0;
+	if(argc == 2) limit = atoi(args[1]);
+	if(limit < 1) limit = 10000;
+
 	clock_t start = clock();
-	int list[10000];
 	int count = 0;
 	for(int number = 2; ; number++)
 	{
 		if(!isPrime(number)) continue;
-		list[count] = number;
 		count++;
-		if(count == 10000)
+		if(count == limit)
 		{
-			printf("10000th prime is %d\n", number);
+			printf("%dth prime is %d\n", limit, number);
 			break;
 		}
 	}
