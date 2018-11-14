@@ -1,35 +1,48 @@
 import time
+import sys
 from threading import Thread
 
 def run():
+	STEP = 10000
+
+	limit = 10000
+	if len(sys.argv) == 2: limit = int(sys.argv[1])
+
 	start = time.clock()
-	primes = {}
-	max = 120000
+	number = 2
+	count = 0
+	while True:
+		primes = {}
 
-	t0 = Thread(target=worker, args=(primes,2,max))
-	t0.start()
-	t1 = Thread(target=worker, args=(primes,3,max))
-	t1.start()
-	t2 = Thread(target=worker, args=(primes,4,max))
-	t2.start()
-	t3 = Thread(target=worker, args=(primes,5,max))
-	t3.start()
-	t0.join()
-	t1.join()
-	t2.join()
-	t3.join()
+		t0 = Thread(target=worker, args=(primes,number+0,number+STEP,number))
+		t0.start()
+		t1 = Thread(target=worker, args=(primes,number+1,number+STEP,number))
+		t1.start()
+		t2 = Thread(target=worker, args=(primes,number+2,number+STEP,number))
+		t2.start()
+		t3 = Thread(target=worker, args=(primes,number+3,number+STEP,number))
+		t3.start()
+		t0.join()
+		t1.join()
+		t2.join()
+		t3.join()
 
-	number = 0;
-	for n in range(2, max, 1):
-		if primes[n]: number += 1
-		if number == 10000:
-			print("10000th prime is " + str(n))
-			break
+		for s in range(0, STEP, 1):
+			if not primes[s]:
+				continue
+			count += 1
+			if count == limit:
+				print(str(limit) + "th prime is " + str(number+s))
+				break
+		else:
+			number += STEP
+			continue
+		break
 	print("[mt.python] duration is " + str(time.clock() - start) + " sec")
 
-def worker(box, start, end):
+def worker(box, start, end, offset):
 	for n in range(start, end, 4):
-		box[n] = is_prime(n)
+		box[n - offset] = is_prime(n)
 
 def is_prime(number):
 	for n in range(2, int(number/2)):

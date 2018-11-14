@@ -20,7 +20,7 @@ if type gcc > /dev/null 2>&1
 then
   echo "Now start gcc."
   cd cpp
-  gcc prime.cpp
+  gcc -o3 prime.cpp
   ./a.out
   cd $ROOT
   cd multithread2_cpp

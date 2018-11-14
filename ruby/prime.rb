@@ -9,16 +9,20 @@ def is_prime(num)
 end
 
 def search()
+	limit = 10000
+	if ARGV.count == 1 then
+		limit = ARGV[0].to_i
+	end
 	start = Time.now
 	count = 0
 	num = 2
-	while count < 10000
+	while count < limit
 		if is_prime(num) then
 			count += 1
 		end
 		num += 1
 	end
-	puts "10000th prime is %d" % num
+	puts "%dth prime is %d" % [limit, num]
 	puts "[ruby] duration is #{Time.now - start} sec"
 end
 
