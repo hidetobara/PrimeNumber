@@ -8,17 +8,20 @@ function isPrime($number)
 	return true;
 }
 
-function main()
+function main($items)
 {
+	$limit = 10000;
+	if(count($items) == 2) $limit = intval($items[1]);
+
 	$start = microtime(true);
 	$list = array();
 	for($number = 2; ; $number++)
 	{
 		if(!isPrime($number)) continue;
 		$list[] = $number;
-		if(count($list) == 10000)
+		if(count($list) == $limit)
 		{
-			print("10000th prime is " . $number . "\n");
+			print($limit . "th prime is " . $number . "\n");
 			break;
 		}
 	}
@@ -26,5 +29,5 @@ function main()
 	printf("[php] duration is %2.2f sec\n", $time);
 }
 
-main();
+main($argv);
 ?>

@@ -3,19 +3,24 @@ package main
 import (
 	"fmt"
 	"time"
+	"os"
+	"strconv"
 )
 
 func main() {
-	const limit = 10000
+	limit := 10000
+	if len(os.Args) == 2 {
+		limit, _ = strconv.Atoi(os.Args[1]);
+	}
+
 	start := time.Now()
-	primes := []int{}
+	count := 0
 	for n := 2; ; n++ {
 		if !isPrime(n) {
 			continue
 		}
-		primes = append(primes, n)
-		//fmt.Printf("%d\n", n)
-		if len(primes) == limit {
+		count++
+		if count == limit {
 			fmt.Printf("%dth prime is %d\n", limit, n)
 			break
 		}
