@@ -44,7 +44,7 @@ def worker(box, start, end, offset):
 		box[ n - offset ] = is_prime(n)
 
 def is_prime(number):
-	for n in range(2, int(number/2)):
+	for n in range(2, int(number/2)+1):
 		if number % n == 0:
 			return False
 	return True

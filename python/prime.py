@@ -19,7 +19,7 @@ def run():
     print("[python] duration is " + str(time.clock() - start) + " sec")
 
 def is_prime(number):
-    for n in range(2, int(number/2)):
+    for n in range(2, int(number/2)+1):
         if number % n == 0:
             return False
     return True

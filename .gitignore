@@ -2,3 +2,4 @@ python/.idea/
 *.exe
 *.out
 *.swp
+*.class

@@ -31,7 +31,7 @@ namespace prime
 
 		static bool IsPrime(int number)
 		{
-			for (int n = 2; n < number / 2; n++)
+			for (int n = 2; n <= number / 2; n++)
 				if (number % n == 0) return false;
 			return true;
 		}

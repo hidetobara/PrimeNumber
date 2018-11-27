@@ -1,6 +1,6 @@
 
 def is_prime(num)
-	for n in 2...num/2
+	for n in 2...(num/2+1)
 		if num % n == 0 then
 			return false
 		end
@@ -15,12 +15,12 @@ def search()
 	end
 	start = Time.now
 	count = 0
-	num = 2
+	num = 1
 	while count < limit
+		num += 1
 		if is_prime(num) then
 			count += 1
 		end
-		num += 1
 	end
 	puts "%dth prime is %d" % [limit, num]
 	puts "[ruby] duration is #{Time.now - start} sec"

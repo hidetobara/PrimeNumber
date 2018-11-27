@@ -11,7 +11,7 @@ using namespace std;
 
 bool isPrime(int number)
 {
-	for(int n = 2; n < number / 2; n++)
+	for(int n = 2; n <= number / 2; n++)
 	{
 		if(number % n == 0) return false;
 	}

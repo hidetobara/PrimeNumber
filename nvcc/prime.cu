@@ -1,51 +1,67 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 __global__ void kernel( int* result )
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
-	result[i] = i;
-	for(int p = 2; p <= i/2; p++)
+	int number = result[i];
+	for(int p = 2; p <= number/2; p++)
 	{
-		if(i % p == 0){ result[i] = 0; break; }
+		if(number % p == 0) return;
 	}
+	result[i] = -number;	// is prime
 }
 
-double diff_sec(time_t start, time_t end)
-{
-	return (double)(end - start)/CLOCKS_PER_SEC;
-}
+double diff_sec(time_t start, time_t end){ return (double)(end - start)/CLOCKS_PER_SEC; }
 
-int main( void )
+int main(int argc, char *argv[])
 {
+	int limit = 10000;
+	if(argc == 2) limit = atoi(argv[1]);
+	const int STEP = 1024*16;
+
 	clock_t start = clock();
-	const int MAX = 1024*1024;
 	int *d_buffer;
 	int *buffer;
-	cudaMalloc((void**)&d_buffer, MAX*sizeof(int));
-	buffer = new int[MAX];
-	clock_t time1 = clock();
+	cudaMalloc((void**)&d_buffer, STEP*sizeof(int));
+	buffer = new int[STEP];
+	int count = 0;
+	for(int number = 2; ; number += STEP)
+	{
+		clock_t time0 = clock();
 
-	dim3 block(512, 1, 1);
-	dim3 grid(MAX/block.x, 1, 1);
+		for(int i = 0; i < STEP; i++) buffer[i] = number + i;
+		cudaMemcpy(d_buffer, buffer, STEP*sizeof(int), cudaMemcpyHostToDevice);
+		clock_t time1 = clock();
 
-	kernel<<<grid,block>>>(d_buffer);
-	clock_t time2 = clock();
+		dim3 block(512, 1, 1);
+		dim3 grid(STEP/block.x, 1, 1);
+		kernel<<<grid,block>>>(d_buffer);
+		clock_t time2 = clock();
 
-	cudaMemcpy(buffer, d_buffer, MAX*sizeof(int), cudaMemcpyDeviceToHost);
+		cudaMemcpy(buffer, d_buffer, STEP*sizeof(int), cudaMemcpyDeviceToHost);
+		clock_t time3 = clock();
+
+		for(int i = 0; i < STEP; i++)
+		{
+			if(buffer[i] > 0) continue;
+			count++;
+//printf("\t%d", buffer[i]);
+			if(count == limit)
+			{
+				printf("%dth prime number is %d\n", limit, -buffer[i]);
+				break;
+			}
+		}
+		printf("1=%.4f,2=%.4f,3=%.4f\n", diff_sec(time0,time1), diff_sec(time1,time2), diff_sec(time2,time3));
+		if(count == limit) break;
+	}
+
 	cudaFree(d_buffer);
 	clock_t end = clock();
-	int count = 1;
-	int target = 0;
-	for(int i = 0; i < MAX; i++)
-	{
-		if(buffer[i]==0) continue;
-//		printf("%d=%d\n", count, buffer[i]);
-		if(count == 10000) target = buffer[i];
-		count++;
-	}
-	printf("total=%.2f,warm-up=%.2f,gpu=%.2f,cool-down=%.2f\n", diff_sec(start,end), diff_sec(start,time1), diff_sec(time1,time2), diff_sec(time2,end));
-	printf("10000th prime number is %d\n[nvcc] duration is %.2f sec\n", target, diff_sec(start,end) * 10000.0/MAX);
+
+	printf("[nvcc] duration is %.2f sec\n", diff_sec(start,end));
 	return 0;
 }
 

@@ -18,7 +18,7 @@ function run(items){
 }
 
 function isPrime(number){
-	for(var n = 2; n < Math.floor(number/2); n++){
+	for(var n = 2; n < Math.floor(number/2)+1; n++){
 		if(number % n == 0) return false;
 	}
 	return true;
