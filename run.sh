@@ -71,10 +71,17 @@ fi
 
 if type node > /dev/null 2>&1
 then
-  echo "No start node."
+  echo "Now start node."
   cd node
   node prime.js $LIMIT
   cd $ROOT
+else
+  if type nodejs > /dev/null 2>&1
+    echo "Now start node."
+    cd node
+    nodejs prime.js $LIMIT
+    cd $ROOT
+  fi
 fi
 
 if type dotnet > /dev/null 2>&1
