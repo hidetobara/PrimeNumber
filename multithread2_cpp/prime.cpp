@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include<pthread.h>
+#include<unistd.h>
 
 #define WORKERS 4
 #define STEP 10000
@@ -24,7 +25,7 @@ bool isPrime(int number)
 void* search(void* args)
 {
 	task_t* task = (task_t*)args;
-	for(int n = task->start; n < task->end; n += task->step) task->primes[n - task->offset] = isPrime(n); 
+	for(int n = task->start; n < task->end; n += task->step) task->primes[n - task->offset] = isPrime(n);
 }
 
 int main(int argc, char* args[])
@@ -50,6 +51,7 @@ int main(int argc, char* args[])
 			tasks[p].primes = primes;
 			pthread_create(&threads[p], NULL, search, &tasks[p]);
 		}
+		usleep(1);
 		for(int p = 0; p < WORKERS; p++) pthread_join(threads[p], NULL);
 
 		for(int s = 0; s < STEP; s++)

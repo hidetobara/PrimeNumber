@@ -38,6 +38,7 @@ int main(int argc, char *args[])
 		std::thread t1(work,list,number+1,number+STEP,number);
 		std::thread t2(work,list,number+2,number+STEP,number);
 		std::thread t3(work,list,number+3,number+STEP,number);
+		std::this_thread::sleep_for(std::chrono::microseconds(1));
 		t0.join();
 		t1.join();
 		t2.join();
